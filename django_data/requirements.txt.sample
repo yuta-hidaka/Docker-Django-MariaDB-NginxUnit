@@ -1,0 +1,18 @@
+django == 3.0
+pymysql
+gunicorn
+ptvsd
+djangorestframework
+django-cors-headers
+django-bootstrap4
+requests
+urllib3
+chardet
+certifi
+idna
+numpy
+six
+mysqlclient
+Pillow
+django-allauth
+django-rest-auth

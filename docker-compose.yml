@@ -1,0 +1,67 @@
+version: '3.4'
+
+services:
+  nginx:
+    image: nginx:${DJANGO_APP_NAME}
+    build:
+      context: ./nginx_data
+      args:
+        APP_NAME: ${DJANGO_APP_NAME}
+        APP_PORT: ${DJANGO_PORT}
+        LISTEN_PORT: ${NGINX_OUTSIDE_PORT}
+    environment:
+      - VIRTUAL_HOST=${VIRTUAL_HOST}
+      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    ports:
+      - ${NGINX_OUTSIDE_PORT}:${NGINX_PORT}
+      # IF you use "https://github.com/evertramos/docker-compose-letsencrypt-nginx-proxy-companion please comment out and use below ports settings"
+      # - ${NGINX_PORT}
+    volumes:
+      - ./django_data/src/static:/static
+      - ./django_data/src/media:/media
+    depends_on:
+      - python-django
+    restart: always
+
+  mariadb:
+    image: 'mariadb:10.0.33'
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - TZ=${MYSQL_TIMEZONE}
+    volumes:
+      - './mariadb_data:/var/lib/mysql'
+    restart: always
+
+  python-django:
+    build:
+      context: ./django_data
+    command: bash -c '
+      django-admin startproject ${DJANGO_APP_NAME} || echo "Pass django-admin startproject ${DJANGO_APP_NAME} "  &&
+      gunicorn ${DJANGO_APP_NAME}.wsgi:application --chdir /code/${DJANGO_APP_NAME} -w 2 -b :${DJANGO_PORT} ${GUNICORN_CMD_ARGS}'
+    ports:
+#     for develop
+      - ${DJANGO_OUTSIDE_PORT}:${DJANGO_PORT}
+      - ${DJANGO_DEBUG_PORT}:${DJANGO_DEBUG_PORT}
+#     for production
+#       - ${DJANGO_PORT}
+
+    depends_on:
+      - mariadb
+    volumes:
+      - ./django_data/src:/code
+    restart: always
+
+volumes:
+  mariadb_data:
+    driver: local
+
+networks:
+  default:
+    external:
+      name: webproxy
