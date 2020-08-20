@@ -1,0 +1,1 @@
+sed -i "/exec/i /init-scripts/init.sh" ./docker-entrypoint.sh

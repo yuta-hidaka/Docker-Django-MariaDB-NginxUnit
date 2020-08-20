@@ -20,7 +20,7 @@ cp django_data/requirements.txt.sample django_data/requirements.txt
 ```
 #### Run this command
 ```
-dcoker-compose up --build
+dcoker-compose up --build -d
 ```
 
 * ```<APP-NAME>``` is defined in .env files by argument [DJANGO APP_NAME]

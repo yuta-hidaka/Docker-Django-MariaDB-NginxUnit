@@ -1,0 +1,3 @@
+flask
+django == 2.2
+pymysql
