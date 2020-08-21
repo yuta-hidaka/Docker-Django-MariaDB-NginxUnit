@@ -3,6 +3,8 @@ ARG APP_NAME
 ARG APP_PORT
 WORKDIR /code
 COPY requirements.txt /config/requirements.txt
+COPY generate_secret_key.py /
+
 RUN apt-get update &&\
     apt-get upgrade &&\
     apt-get install -y python3-pip &&\
@@ -12,4 +14,4 @@ RUN apt-get update &&\
 
 COPY . /code/
 
-RUN sed -i "/exec/i /init-scripts/init.sh $APP_NAME $APP_PORT" /usr/local/bin/docker-entrypoint.sh
+RUN sed -i "/SECURITY WARNING/i /init-scripts/init.sh $APP_NAME $APP_PORT" /usr/local/bin/docker-entrypoint.sh
