@@ -3,8 +3,9 @@
 set -e
 
 app_name="$1"
-shift  
+shift 
 port="$1"
+shift 
 
 DIR="/code/$app_name"
 
@@ -12,6 +13,7 @@ if [ -d "$DIR" ]; then
     echo 'Django project already exsit'
     echo 'Skip django-admin startproject' $app_name
 else
+    echo 'Django project start create'
     django-admin startproject $app_name
     # Create ALLOWED_HOST
     ALLOWED_HOSTS="ALLOWED_HOSTS=['"$app_name"']"
@@ -25,15 +27,14 @@ else
     # Add ALLOWED_HOSTS
     sed -i "/DEBUG/a ${ALLOWED_HOSTS}" $app_name/$app_name/settings.py
     # Load local_settings
-    sed -i "/import os/a from local_settings import *" $app_name/$app_name/settings.py
+    sed -i "/import os/a from .local_settings import *" $app_name/$app_name/settings.py
 fi
 
 # Create nginx-unit config.json
 tmp_str_1='
 {
 "listeners": {
-    "*:@@@port@@@
-    ": {
+    "*:@@@port@@@": {
       "pass": "routes"
     }
   },
@@ -69,7 +70,7 @@ tmp_str_2=$(echo $tmp_str_1 | sed -e "s/@@@port@@@/${port}/g")
 json_config=$(echo $tmp_str_2 | sed -e "s/@@@app_name@@@/$app_name/g")
 
 # Output to config.json
-rm -rf /docker-entrypoint.d/config.json && touch /docker-entrypoint.d/config.json
+# rm -rf /docker-entrypoint.d/config.json && touch /docker-entrypoint.d/config.json
 echo $json_config > /docker-entrypoint.d/config.json
 
 exec "$@"

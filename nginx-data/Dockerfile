@@ -5,6 +5,7 @@ ARG LISTEN_PORT
 
 RUN rm /etc/nginx/conf.d/default.conf || echo 'skip rm /etc/nginx/conf.d/default.conf'
 RUN touch /etc/nginx/conf.d/nginx.conf
+COPY ./init-scripts/hello.sh  /docker-entrypoint.d/
 RUN echo "                                                              \
             upstream $APP_NAME {                                        \
                 server nginx-unit:$APP_PORT;                         \

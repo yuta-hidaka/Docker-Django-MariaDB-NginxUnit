@@ -14,4 +14,6 @@ RUN apt-get update &&\
 
 COPY . /code/
 
-RUN sed -i "/SECURITY WARNING/i /init-scripts/init.sh $APP_NAME $APP_PORT" /usr/local/bin/docker-entrypoint.sh
+# Add original script 
+RUN sed -i "2i sed -i 's/\r//' /init-scripts/init.sh" /usr/local/bin/docker-entrypoint.sh &&\
+    sed -i "3i /init-scripts/init.sh $APP_NAME $APP_PORT" /usr/local/bin/docker-entrypoint.sh

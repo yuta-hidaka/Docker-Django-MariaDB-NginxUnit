@@ -1,1 +1,1 @@
-SECURITY_KEY="yq@@c)1ba@2xvu-%jo6mf+d1rc!0))o8o_=va74y(o+a%--y+r"
+SECRET_KEY='864yqh!ncb(wc(_iaxzty&56uzvz_o@f9*elu8lu-_3)(f_jgr'
