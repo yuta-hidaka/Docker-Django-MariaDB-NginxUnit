@@ -9,7 +9,7 @@ Just edit env. and add your modules in requirements.txt then just run!
 git clone https://github.com/yuta-hidaka/Docker-Django-MariaDB-NginxUnit.git project_name
 ```
 
-#### Directory structur
+#### Directory structure
 
 ```
 Docker-Django-MariaDB-NginxUnit
