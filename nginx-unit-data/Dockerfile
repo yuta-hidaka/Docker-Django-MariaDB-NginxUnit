@@ -12,9 +12,8 @@ RUN apt-get update &&\
     python3 -m pip install --upgrade setuptools &&\
     pip install -r /config/requirements.txt &&\
     rm -rf /var/lib/apt/lists/* &&\
-    sed -i "$ a alias python=python3" ~/.bashrc &&\
-    source ~/.bashrc
-
+    sed -i "$ a alias python=python3" ~/.bashrc
+    
 COPY . /code/
 
 # Add init.sh script to docker-entrypoint.sh
