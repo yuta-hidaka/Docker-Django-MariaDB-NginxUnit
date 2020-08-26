@@ -13,8 +13,7 @@ git clone https://github.com/yuta-hidaka/Docker-Django-MariaDB-NginxUnit.git pro
 
 ```
 Docker-Django-MariaDB-NginxUnit
-    ┣mariadb-data
-    ┃   ┗Dockerfile
+    ┣mariadb-data(Will create after first run)
     ┃
     ┣nginx-data
     ┃   ┗Dockerfile

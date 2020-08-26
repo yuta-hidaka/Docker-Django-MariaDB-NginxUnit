@@ -9,11 +9,13 @@ shift
 
 DIR="/code/$app_name"
 
+echo 'Checking Django project exsist ...'
 if [ -d "$DIR" ]; then
-    echo 'Django project already exsit'
-    echo 'Skip django-admin startproject' $app_name
+    echo 'Django project already exsit.'
+    echo 'Skip django-admin startproject '$app_name'.'
 else
-    echo 'Django project start create'
+    echo 'Django project dose not exsist.'
+    echo 'Django project start create...'
     django-admin startproject $app_name
     # Create ALLOWED_HOST
     ALLOWED_HOSTS="ALLOWED_HOSTS=['"$app_name"']"
@@ -26,8 +28,18 @@ else
     sed -i '/ALLOWED_HOSTS/d' $app_name/$app_name/settings.py
     # Add ALLOWED_HOSTS
     sed -i "/DEBUG/a ${ALLOWED_HOSTS}" $app_name/$app_name/settings.py
-    # Load local_settings
+
+    # Add STATIC_ROOT
+    sed -i -e"$ a STATIC_ROOT = '/static/'" $app_name/$app_name/settings.py
+    # Add MEDIA_ROOT
+    sed -i -e"$ a MEDIA_ROOT = '/media/'" $app_name/$app_name/settings.py
+    # Add MEDIA_URL
+    sed -i -e"$ a MEDIA_URL = '/media/'" $app_name/$app_name/settings.py
+
+    # Add load local_settings
     sed -i "/import os/a from .local_settings import *" $app_name/$app_name/settings.py
+    echo 'Create project Done!'
+
 fi
 
 # Create nginx-unit config.json

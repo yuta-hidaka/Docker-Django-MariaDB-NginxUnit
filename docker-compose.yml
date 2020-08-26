@@ -59,6 +59,8 @@ services:
     volumes:
       # Django source code
       - ./nginx-unit-data/src:/code
+      - ./nginx-unit-data/src/static:/static
+      - ./nginx-unit-data/src/media:/media
       # - ./nginx-unit-data/state:/var/lib/unit
       - ./nginx-unit-data/init-scripts:/init-scripts
       - ./nginx-unit-data/log/unit.log:/var/log/unit.log
