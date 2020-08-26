@@ -39,22 +39,32 @@ tmp_str_1='
     }
   },
   "routes": [
-    {
-      "match": {
-        "uri": "/static/*"
-      },
-      "action": {
-        "share": "/code/@@@app_name@@@/"
-      }
-    },
-    {
-      "action": {
-        "pass": "applications/django"
-      }
-    }
+        {
+            "match": {
+                "uri": "/static/*"
+            },
+
+            "action": {
+                "share": "/code/@@@app_name@@@/"
+            }
+        },
+        {
+            "match": {
+                "uri": "/media/*"
+            },
+
+            "action": {
+                "share": "/code/@@@app_name@@@/"
+            }
+        },
+        {
+            "action": {
+                "pass": "applications/django-app"
+            }
+        }
   ],
   "applications": {
-    "django": {
+    "django-app": {
       "type": "python 3",
       "path": "/code/@@@app_name@@@/",
       "module": "@@@app_name@@@.wsgi",
