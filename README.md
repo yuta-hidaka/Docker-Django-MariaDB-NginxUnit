@@ -1,3 +1,6 @@
+### This is new version of https://github.com/yuta-hidaka/Docker-Django-MariaDB-Gunicorn .
+### More faster and more organized.
+
 ### setup
 
 This docker-compose.yml can make Django Project auntomatically.
