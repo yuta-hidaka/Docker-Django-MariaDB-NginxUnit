@@ -63,7 +63,7 @@ services:
       - ./nginx-unit-data/src/media:/media
       # - ./nginx-unit-data/state:/var/lib/unit
       - ./nginx-unit-data/init-scripts:/init-scripts
-      - ./nginx-unit-data/log/unit.log:/var/log/unit.log
+      - ./nginx-unit-data/log:/var/log
       - ./nginx-unit-data/config:/docker-entrypoint.d/
     container_name: nginx-unit-${DJANGO_APP_NAME}
     restart: always
