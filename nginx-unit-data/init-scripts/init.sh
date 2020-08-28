@@ -40,6 +40,8 @@ if  [ ! -f "$LOCAL_SETTINGS_FILE" ]; then
     echo 'Generate SECRET_KEY ...'
     # Generate SECRET_KEY
     python3 /generate_secret_key.py > $app_name/$app_name/local_settings.py
+    # Remove from .local_settings import *
+    sed -i '/from .local_settings import */d' $app_name/$app_name/settings.py
     # Add load local_settings
     sed -i "/import os/a from .local_settings import *" $app_name/$app_name/settings.py
     echo 'Generate SECRET_KEY Done!'
@@ -94,8 +96,7 @@ tmp_str_1='
 tmp_str_2=$(echo $tmp_str_1 | sed -e "s/@@@port@@@/${port}/g")
 json_config=$(echo $tmp_str_2 | sed -e "s/@@@app_name@@@/$app_name/g")
 
-# Output to config.json
-# rm -rf /docker-entrypoint.d/config.json && touch /docker-entrypoint.d/config.json
+# Output and rewriteto config.json
 echo $json_config > /docker-entrypoint.d/config.json
 
 exec "$@"
