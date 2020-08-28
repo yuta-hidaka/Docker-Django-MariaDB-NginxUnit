@@ -2,3 +2,4 @@ mariadb-data/
 __pycache__/
 local_settings.py
 .env
+log/unit.log
